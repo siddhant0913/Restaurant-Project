@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title> ChavAngan</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff8f0;
+      color: #333;
+    }
+
+    header {
+      background-color: #e67e22;
+      color: white;
+      padding: 10px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    nav a {
+      margin: 0 15px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .hero {
+      background-image: url('restaurant-interior.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+    }
+
+    .hero h1 {
+      font-size: 60px;
+      padding: 20px;
+      position: relative;
+      border-radius: 10px;
+    }
+
+    .section {
+      padding: 60px 40px;
+    }
+
+    .menu-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .menu-item {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .menu-item img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .menu-item h3 {
+      margin-top: 0;
+    }
+
+    .menu-item button {
+      background-color: #e67e22;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .menu-item button:hover {
+      background-color: #cf711a;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px -10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .contact-form button {
+      padding: 12px 25px;
+      background-color: #e67e22;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .cart {
+      font-weight: 600;
+      color: white;
+      margin-left: 15px;
+      text-decoration: none;
+    }
+
+    #cart ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    #cart li {
+      background: #fff;
+      margin-bottom: 10px;
+      padding: 12px 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #cart li button {
+      background-color: #c0392b;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    #cart li button:hover {
+      background-color: #992d22;
+    }
+
+    #cart strong {
+      font-size: 1.1em;
+    }
+
+    #checkout-btn {
+      padding: 10px 18px;
+      background: #27ae60;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 15px;
+      display: none;
+    }
+
+    #payment-form {
+      display: none;
+      margin-top: 20px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+    }
+
+    #payment-form h3 {
+      margin-top: 0;
+    }
+
+    #payment-form input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    #payment-form button {
+      background: #e67e22;
+      color: #fff;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    #toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #27ae60;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease-in-out;
+      font-weight: 600;
+      z-index: 9999;
+    }
+
+    #toast.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Hamburger Styles */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+
+    .hamburger span {
+      height: 3px;
+      width: 25px;
+      background-color: white;
+      display: block;
+      border-radius: 2px;
+    }
+
+    /* Responsive Nav */
+    /* Hamburger Styles */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.hamburger span {
+  height: 3px;
+  width: 25px;
+  background-color: white;
+  display: block;
+  border-radius: 2px;
+}
+
+.go-to-cart {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.go-to-cart:hover {
+  background-color: #219150;
+}
+
+
+/* Responsive Nav */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  nav#nav-links {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    width: 100%;
+    background-color: #e67e22;
+    flex-direction: column;
+    text-align: right;
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+  }
+
+  nav#nav-links a {
+    padding: 12px 0;
+    display: block;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  nav#nav-links.active {
+    max-height: 300px; /* Adjust height if more links */
+    transition: max-height 0.4s ease-in;
+  }
+}
+
+    .logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  border-radius: 50%; /* Optional: makes logo circular */
+}
+
+  </style>
+</head>
+
+<body>
+  <header>
+    <!-- <h2>Hotel Chav</h2> -->
+     <img src="logo.png" alt="Logo" class="logo" />
+
+    <!-- Hamburger icon -->
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="nav-links">
+      <a href="#menu">Menu</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="#cart" class="cart">🛒 Cart</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Hotel Chav - Bringing India to Your Plate</h1>
+  </section>
+
+  <section class="section" id="menu">
+    <h2>Our Menu</h2>
+    <div class="menu-items">
+      <div class="menu-item">
+        <img src="butter-chicken.jpg" alt="Butter Chicken" />
+        <h3>Butter Chicken</h3>
+        <p>₹200</p>
+        <button onclick="addToCart('Butter Chicken', 200)">Add to Cart</button>
+      </div>
+      <div class="menu-item">
+        <img src="paneer-tikka.jpg" alt="Paneer Tikka" />
+        <h3>Paneer Tikka</h3>
+        <p>₹180</p>
+        <button onclick="addToCart('Paneer Tikka', 180)">Add to Cart</button>
+      </div>
+      <div class="menu-item">
+        <img src="chicken-biryani.jpg" alt="Chicken Biryani" />
+        <h3>Chicken Biryani</h3>
+        <p>₹220</p>
+        <button onclick="addToCart('Chicken Biryani', 220)">Add to Cart</button>
+      </div>
+        <div class="menu-item">
+  <img src="dal-makhani.jpg" alt="Dal Makhani" />
+  <h3>Dal Makhani</h3>
+  <p>₹160</p>
+  <button onclick="addToCart('Dal Makhani', 160)">Add to Cart</button>
+</div>
+
+<div class="menu-item">
+  <img src="masala-dosa.jpg" alt="Masala Dosa" />
+  <h3>Masala Dosa</h3>
+  <p>₹140</p>
+  <button onclick="addToCart('Masala Dosa', 140)">Add to Cart</button>
+</div>
+
+<div class="menu-item">
+  <img src="chole-bhature.jpg" alt="Chole Bhature" />
+  <h3>Chole Bhature</h3>
+  <p>₹150</p>
+  <button onclick="addToCart('Chole Bhature', 150)">Add to Cart</button>
+</div>
+
+<div class="menu-item">
+  <img src="veg-pulao.jpg" alt="Veg Pulao" />
+  <h3>Veg Pulao</h3>
+  <p>₹130</p>
+  <button onclick="addToCart('Veg Pulao', 130)">Add to Cart</button>
+</div>
+
+<div class="menu-item">
+  <img src="gulab-jamun.jpg" alt="Gulab Jamun" />
+  <h3>Gulab Jamun</h3>
+  <p>₹90</p>
+  <button onclick="addToCart('Gulab Jamun', 90)">Add to Cart</button>
+</div>
+
+    <div class="menu-item">
+  <img src="tandoor-roti.jpg" alt="Roti" />
+  <h3>Roti (2 pcs)</h3>
+  <p>₹40</p>
+  <button onclick="addToCart('Roti (2 pcs)', 40)">Add to Cart</button>
+</div>
+
+<div class="menu-item">
+  <img src="salad.jpg" alt="Fresh Salad" />
+  <h3>Fresh Salad</h3>
+  <p>₹60</p>
+  <button onclick="addToCart('Fresh Salad', 60)">Add to Cart</button>
+</div>
+
+
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <h2>About Us</h2>
+    <p>Hotel Chav offers a true taste of India with authentic recipes made from fresh, quality ingredients.
+Our menu celebrates the rich and diverse flavors from every region of India.
+Enjoy a warm, welcoming atmosphere perfect for family and friends.
+At Hotel Chav, every meal is a flavorful journey you’ll want to revisit.</p>
+    <!-- <p>At Delicious Bites, we bring authentic Indian flavors made with love and tradition. Experience the richness of Indian spices and culinary heritage in every bite.</p> -->
+    <img src="restaurant-interior.jpg" alt="Restaurant Interior" style="width: 100%; margin-top: 30px; border-radius: 12px;" />
+  </section>
+
+  <section class="section" id="contact">
+    <h2>Contact Us</h2>
+    <form class="contact-form" onsubmit="submitForm(event)">
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Your Email" required />
+      <textarea rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <section class="section" id="cart">
+    <h2>Your Cart</h2>
+    <p>Your cart is empty.</p>
+    <button id="checkout-btn" onclick="showPaymentForm()">Checkout</button>
+
+    <div id="payment-form">
+      <h3>Payment Details</h3>
+      <form id="payForm" onsubmit="processPayment(event)">
+        <input type="text" id="cardName" placeholder="Name on Card" required />
+        <input type="text" id="cardNumber" placeholder="Card Number" pattern="\d{16}" maxlength="16" required />
+        <input type="text" id="expiry" placeholder="Expiry MM/YY" pattern="(0[1-9]|1[0-2])\/\d{2}" required />
+        <input type="text" id="cvv" placeholder="CVV" pattern="\d{3}" maxlength="3" required />
+        <button type="submit">Pay Now</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 Delicious Bites. All rights reserved.
+  </footer>
+
+  <div id="toast"></div>
+
+  <script>
+    let cart = [];
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    function addToCart(name, price) {
+      const existing = cart.find((item) => item.name === name);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ name, price, quantity: 1 });
+      }
+      updateCartDisplay();
+      showToast(`${name} added to cart`);
+    }
+
+    function removeFromCart(index) {
+      const removedItem = cart[index];
+      cart.splice(index, 1);
+      updateCartDisplay();
+      showToast(`${removedItem.name} removed from cart`);
+    }
+
+    function updateCartDisplay() {
+      const cartSection = document.getElementById('cart');
+      const checkoutBtn = document.getElementById('checkout-btn');
+      const paymentForm = document.getElementById('payment-form');
+
+      if (!cartSection) return;
+
+      if (cart.length === 0) {
+        cartSection.innerHTML = '<h2>Your Cart</h2><p>Your cart is empty.</p>';
+        if (checkoutBtn) checkoutBtn.style.display = 'none';
+        if (paymentForm) paymentForm.style.display = 'none';
+        return;
+      }
+
+      let html = '<h2>Your Cart</h2><ul>';
+      let total = 0;
+      cart.forEach((item, index) => {
+        total += item.price * item.quantity;
+        html += `<li>
+          ${item.name} x ${item.quantity} - ₹${item.price * item.quantity}
+          <button onclick="removeFromCart(${index})">Remove</button>
+        </li>`;
+      });
+      html += `</ul><p><strong>Total: ₹${total}</strong></p>`;
+      cartSection.innerHTML = html;
+
+      if (checkoutBtn) checkoutBtn.style.display = 'inline-block';
+      if (paymentForm) paymentForm.style.display = 'none';
+
+      cartSection.appendChild(checkoutBtn);
+      cartSection.appendChild(paymentForm);
+    }
+
+    function addToCart(name, price) {
+  const existing = cart.find((item) => item.name === name);
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push({ name, price, quantity: 1 });
+  }
+  updateCartDisplay();
+  showToast(`${name} added to cart`);
+
+  // Show "Go to Cart" button
+  const buttons = document.querySelectorAll('.menu-item button');
+  buttons.forEach(btn => {
+    const existingGoToCart = btn.parentElement.querySelector('.go-to-cart');
+    if (existingGoToCart) existingGoToCart.remove(); // Remove any old buttons
+  });
+
+  const menuItems = document.querySelectorAll('.menu-item');
+  menuItems.forEach(item => {
+    const itemName = item.querySelector('h3').innerText;
+    if (itemName === name) {
+      const goToCart = document.createElement('button');
+      goToCart.classList.add('go-to-cart');
+      goToCart.textContent = 'Go to Cart';
+      goToCart.style.marginTop = '10px';
+      goToCart.style.backgroundColor = '#27ae60';
+      goToCart.onclick = () => {
+        document.getElementById('cart').scrollIntoView({ behavior: 'smooth' });
+      };
+      item.appendChild(goToCart);
+    }
+  });
+}
+
+
+    function showPaymentForm() {
+      document.getElementById('payment-form').style.display = 'block';
+      document.getElementById('payment-form').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function processPayment(event) {
+      event.preventDefault();
+      alert('Payment Successful! Thank you for your order.');
+      cart = [];
+      updateCartDisplay();
+      document.getElementById('payment-form').style.display = 'none';
+      document.getElementById('payForm').reset();
+    }
+
+    function submitForm(event) {
+      event.preventDefault();
+      alert("Thank you for contacting Hotel Chav! We'll get back to you soon.");
+      event.target.reset(); //This is for clear the fields
+    }
+
+    function toggleMenu() {
+      const nav = document.getElementById('nav-links');
+      nav.classList.toggle('active');
+    }
+  </script>
+</body>
+
+</html>
